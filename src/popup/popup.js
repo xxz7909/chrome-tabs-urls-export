@@ -36,9 +36,9 @@ document.addEventListener("click", async (event) => {
   }
 });
 
-document.querySelector("#open-manager").addEventListener("click", openManager);
+document.querySelector("#open-manager").addEventListener("click", () => openManager());
 document.querySelector("#import-button").addEventListener("click", () => openManager("?view=import"));
-document.querySelector("#manage-button").addEventListener("click", openManager);
+document.querySelector("#manage-button").addEventListener("click", () => openManager());
 
 void loadStatus();
 
