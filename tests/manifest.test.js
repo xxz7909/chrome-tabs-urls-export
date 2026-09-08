@@ -34,3 +34,13 @@ test("扩展页面仅引用存在的本地资源", () => {
     }
   }
 });
+
+test("导入和管理入口使用不同的管理页状态", () => {
+  const popup = readFileSync("src/popup/popup.js", "utf8");
+  const manager = readFileSync("src/manager/manager.js", "utf8");
+
+  assert.match(popup, /openManager\("\?view=import"\)/);
+  assert.match(popup, /document\.querySelector\("#manage-button"\)\.addEventListener\("click", openManager\)/);
+  assert.match(manager, /new URLSearchParams\(location\.search\)\.get\("view"\) === "import"/);
+  assert.doesNotMatch(manager, /location\.hash === "#import"/);
+});

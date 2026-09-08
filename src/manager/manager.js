@@ -103,7 +103,7 @@ void initialize();
 
 async function initialize() {
   await Promise.all([loadStatus(), loadSessions()]);
-  if (location.hash === "#import") {
+  if (new URLSearchParams(location.search).get("view") === "import") {
     elements.importDialog.showModal();
   }
 }

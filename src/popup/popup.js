@@ -37,7 +37,7 @@ document.addEventListener("click", async (event) => {
 });
 
 document.querySelector("#open-manager").addEventListener("click", openManager);
-document.querySelector("#import-button").addEventListener("click", () => openManager("#import"));
+document.querySelector("#import-button").addEventListener("click", () => openManager("?view=import"));
 document.querySelector("#manage-button").addEventListener("click", openManager);
 
 void loadStatus();
@@ -137,8 +137,8 @@ function renderRecent(items) {
   }
 }
 
-function openManager(hash = "") {
-  chrome.tabs.create({ url: `${chrome.runtime.getURL("src/manager/manager.html")}${hash}` });
+function openManager(query = "") {
+  chrome.tabs.create({ url: `${chrome.runtime.getURL("src/manager/manager.html")}${query}` });
   window.close();
 }
 
