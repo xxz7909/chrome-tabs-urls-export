@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>标签会话管家 · 会话管理器</title>
+    <link rel="stylesheet" href="manager.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">TS</div>
+        <div>
+          <p>TAB SESSION MANAGER</p>
+          <h1>标签会话管家</h1>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="secondary" data-save-scope="current" type="button">保存当前窗口</button>
+        <button class="secondary" data-save-scope="all" type="button">保存全部窗口</button>
+        <button id="open-import" class="primary" type="button">导入会话</button>
+      </div>
+    </header>
+
+    <section id="permission-notices" class="permission-notices" aria-live="polite"></section>
+
+    <main class="main-shell">
+      <section class="library-heading">
+        <div>
+          <p class="eyebrow">SESSION LIBRARY</p>
+          <h2>永久会话库</h2>
+          <p id="library-summary" class="subtle">正在读取本机会话…</p>
+        </div>
+        <div class="filters">
+          <label class="search-field">
+            <span class="sr-only">搜索会话</span>
+            <input id="search-input" type="search" placeholder="搜索名称、标题或 URL">
+          </label>
+          <label>
+            <span class="sr-only">会话类型</span>
+            <select id="kind-filter">
+              <option value="all">全部类型</option>
+              <option value="manual">手动保存</option>
+              <option value="recovery">关闭前状态</option>
+              <option value="imported">导入会话</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="range-delete" aria-labelledby="range-delete-title">
+        <div>
+          <p class="eyebrow">CLEANUP BY DATE</p>
+          <h3 id="range-delete-title">按时间范围删除</h3>
+          <p class="subtle">删除范围内的所有会话，包含开始和结束时刻。</p>
+        </div>
+        <div class="range-delete-controls">
+          <label>
+            <span>开始时间</span>
+            <input id="delete-start" type="datetime-local">
+          </label>
+          <label>
+            <span>结束时间</span>
+            <input id="delete-end" type="datetime-local">
+          </label>
+          <button id="delete-range" class="danger-button" type="button">删除范围内会话</button>
+        </div>
+      </section>
+
+      <section id="session-list" class="session-list" aria-live="polite">
+        <div class="loading-card">正在加载会话…</div>
+      </section>
+    </main>
+
+    <dialog id="session-dialog" class="wide-dialog">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">SESSION DETAIL</p>
+          <h2 id="session-dialog-title">会话详情</h2>
+        </div>
+        <button class="close-button" data-close-dialog type="button" aria-label="关闭">×</button>
+      </div>
+      <div id="session-dialog-meta" class="dialog-meta"></div>
+      <div id="session-tree" class="session-tree"></div>
+      <div class="dialog-actions wrap-actions">
+        <button class="secondary" data-detail-action="txt" type="button">下载 TXT</button>
+        <button class="secondary" data-detail-action="json" type="button">下载 JSON</button>
+        <button class="secondary" data-detail-action="rename" type="button">重命名</button>
+        <button class="primary" data-detail-action="restore" type="button">新窗口恢复</button>
+      </div>
+    </dialog>
+
+    <dialog id="import-dialog" class="wide-dialog">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">IMPORT & PREVIEW</p>
+          <h2>导入 TXT 或 JSON</h2>
+        </div>
+        <button class="close-button" data-close-dialog type="button" aria-label="关闭">×</button>
+      </div>
+      <p class="subtle">可粘贴换行 URL、Windows/UNC 本地路径，或选择扩展导出的 JSON 会话文件。</p>
+      <label class="file-picker">
+        <span>选择 .txt / .json 文件</span>
+        <input id="import-file" type="file" accept=".txt,.json,text/plain,application/json">
+      </label>
+      <label class="textarea-label" for="import-text">粘贴内容</label>
+      <textarea id="import-text" rows="9" spellcheck="false" placeholder="https://example.com/&#10;C:\\Users\\me\\Desktop\\page.html&#10;chrome://extensions/"></textarea>
+      <div class="import-options">
+        <label id="import-incognito-row" class="checkbox-row">
+          <input id="import-incognito" type="checkbox">
+          <span>将 TXT URL 打开到无痕窗口</span>
+        </label>
+        <button id="parse-import" class="secondary" type="button">解析并预览</button>
+      </div>
+      <div id="import-preview" class="import-preview" aria-live="polite">
+        <p class="empty-preview">尚未解析内容</p>
+      </div>
+      <div class="dialog-actions wrap-actions">
+        <button data-import-action="save" class="secondary" type="button" disabled>仅保存到会话库</button>
+        <button data-import-action="open" class="secondary" type="button" disabled>仅新窗口打开</button>
+        <button data-import-action="both" class="primary" type="button" disabled>保存并打开</button>
+      </div>
+    </dialog>
+
+    <dialog id="result-dialog" class="result-dialog">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">OPERATION RESULT</p>
+          <h2 id="result-title">操作结果</h2>
+        </div>
+        <button class="close-button" data-close-dialog type="button" aria-label="关闭">×</button>
+      </div>
+      <div id="result-content"></div>
+      <div class="dialog-actions">
+        <button class="primary" data-close-dialog type="button">完成</button>
+      </div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="manager.js"></script>
+  </body>
+</html>

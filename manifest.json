@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "标签会话管家",
+  "version": "1.0.0",
+  "minimum_chrome_version": "102",
+  "description": "导出、导入并永久保存当前 Chrome 配置文件中的标签页与窗口会话。",
+  "permissions": [
+    "alarms",
+    "storage",
+    "tabs",
+    "tabGroups",
+    "unlimitedStorage"
+  ],
+  "host_permissions": [
+    "file:///*"
+  ],
+  "incognito": "spanning",
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "标签会话管家",
+    "default_popup": "src/popup/popup.html"
+  }
+}

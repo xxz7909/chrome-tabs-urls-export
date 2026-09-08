@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>标签会话管家</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">TAB SESSION</p>
+        <h1>标签会话管家</h1>
+      </div>
+      <button id="open-manager" class="icon-button" type="button" title="打开会话管理器" aria-label="打开会话管理器">↗</button>
+    </header>
+
+    <section id="permission-bar" class="permission-bar" aria-live="polite"></section>
+
+    <main>
+      <section class="scope-card">
+        <div class="scope-heading">
+          <div>
+            <span class="scope-kicker">CURRENT WINDOW</span>
+            <h2>当前窗口</h2>
+          </div>
+          <button class="save-button" data-command="save" data-scope="current" type="button">保存会话</button>
+        </div>
+        <div class="action-grid">
+          <button data-command="copy" data-scope="current" type="button"><span>复制</span><small>URL 列表</small></button>
+          <button data-command="download" data-scope="current" type="button"><span>下载</span><small>TXT 文件</small></button>
+        </div>
+      </section>
+
+      <section class="scope-card accent-card">
+        <div class="scope-heading">
+          <div>
+            <span class="scope-kicker">ALL WINDOWS</span>
+            <h2>全部窗口</h2>
+          </div>
+          <button class="save-button" data-command="save" data-scope="all" type="button">保存会话</button>
+        </div>
+        <div class="action-grid">
+          <button data-command="copy" data-scope="all" type="button"><span>复制</span><small>URL 列表</small></button>
+          <button data-command="download" data-scope="all" type="button"><span>下载</span><small>TXT 文件</small></button>
+        </div>
+      </section>
+
+      <section class="recent-section">
+        <div class="section-title">
+          <h2>最近会话</h2>
+          <span id="session-count">0 份</span>
+        </div>
+        <div id="recent-list" class="recent-list">
+          <p class="empty-state">正在读取会话…</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <button id="import-button" class="primary-button" type="button">导入或管理所有会话</button>
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </footer>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
